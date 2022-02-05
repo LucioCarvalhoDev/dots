@@ -14,4 +14,17 @@ export default class Drafter {
 
         this.brush.closePath();
     }
+
+    line(ax, ay, bx, by) {
+        this.brush.beginPath();
+
+        this.brush.moveTo(ax, ay);
+        this.brush.lineTo(bx, by);
+
+        // Fill with gradient
+        this.brush.strokeStyle = "#ffffff20";
+        this.brush.stroke();
+
+        this.brush.closePath();
+    }
 }

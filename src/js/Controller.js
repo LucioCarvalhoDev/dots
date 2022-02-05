@@ -1,5 +1,4 @@
 import Dot from "./Dot.js";
-import circleHtml from "./../circle.html";
 import Drafter from "./Drafter.js";
 
 const QUANTITY = 10;
@@ -38,7 +37,7 @@ export default class Controller {
         }
     }
 
-    render() {
+    renderDots() {
         this.drafter.brush.clearRect(0, 0, this.canvas.witdh, this.canvas.height);
         this.dots.forEach((dot, idx) => {
             if (dot.update(this.canvas.witdh, this.canvas.height)) {
@@ -50,5 +49,13 @@ export default class Controller {
 
         this.dots = this.dots.filter(d => d);
         return this.dots.length;
+    }
+
+    renderLines() {
+
+        this.dots.forEach(startDot => {
+            startDot.checkCol([].concat(this.dots));
+            this.drafter.line(startDot.x, startDot.y, startDot.connections[0].x, startDot.connections[0].y);
+        });
     }
 }
