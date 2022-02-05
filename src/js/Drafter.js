@@ -16,13 +16,26 @@ export default class Drafter {
     }
 
     line(ax, ay, bx, by) {
+
+        const c1 = ax - bx;
+        const c2 = ay - by;
+        const distance = Math.round(Math.sqrt(c1 ** 2 + c2 ** 2));
+        let trans = 255 - distance * 1.5;
+        if (trans < 0)
+            trans = 0;
+
+        trans = trans == 0 ? '00' : Number(trans).toString(16);
+
         this.brush.beginPath();
 
         this.brush.moveTo(ax, ay);
         this.brush.lineTo(bx, by);
 
         // Fill with gradient
-        this.brush.strokeStyle = "#ffffff20";
+        // console.log(trans);
+        const color = "#ffffff" + trans;
+
+        this.brush.strokeStyle = color;
         this.brush.stroke();
 
         this.brush.closePath();

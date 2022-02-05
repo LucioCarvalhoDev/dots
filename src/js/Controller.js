@@ -22,12 +22,13 @@ export default class Controller {
 
     }
 
-    createDot() {
-        const x = Math.round(Math.random() * this.canvas.witdh);
-        const y = Math.round(Math.random() * this.canvas.height);
-        const dir = Math.round(Math.random() * 360);
+    createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
+        const x = posX || Math.round(Math.random() * this.canvas.witdh);
+        const y = posY || Math.round(Math.random() * this.canvas.height);
+        const dir = mvDir || Math.round(Math.random() * 360);
+        const spd = mvSpd || Math.random() * 2 + 0.5;
 
-        const dot = new Dot(x, y, dir);
+        const dot = new Dot(x, y, dir, spd);
         this.dots.push(dot);
     }
 
@@ -50,10 +51,9 @@ export default class Controller {
         this.dots.forEach((dot, idx) => {
             if (dot.update(this.canvas.witdh, this.canvas.height)) {
                 let color = "#ffffff";
-                if (dot == this.dots[0]) {
-                    color = "#ff0000";
-                }
-                // console.log(color);
+                // if (dot == this.dots[0]) {
+                //     color = "#ff0000";
+                // }
                 this.drafter.dot(dot.x, dot.y, color);
             } else {
                 delete this.dots[idx];
@@ -71,6 +71,14 @@ export default class Controller {
             startDot.connections.forEach(endDot => {
                 this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
             });
+        });
+    }
+
+    debugRenderLine() {
+        const startDot = this.dots[0];
+        startDot.checkCol([].concat(this.dots));
+        startDot.connections.forEach(endDot => {
+            this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
         });
     }
 }

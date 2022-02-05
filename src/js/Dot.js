@@ -5,7 +5,7 @@ export default class Dot {
      * @param {number} y 
      * @param {number} dir 0~360
      */
-    constructor(x, y, dir, speed = (Math.random() * 2 + 0.5)) {
+    constructor(x, y, dir, speed) {
         this.x = x;
         this.y = y;
 
@@ -33,16 +33,20 @@ export default class Dot {
                 new Dot(Infinity, Infinity, 0, 1),];
         }
 
-        let otherDots = dots.filter(dot => dot != this);
+        let otherDots = dots.filter(dot =>
+            dot != this && this.connections.indexOf(dot) == -1);
 
         this.connections = this.connections.map(curDot => {
+
             const curDistance = this._distanceTo(curDot.x, curDot.y);
             const othersDistances = otherDots.map(dot => dot._distanceTo(this.x, this.y));
             const smallestDistance = Math.min(...othersDistances);
+
             if (curDistance > smallestDistance) {
                 const otherIdx = othersDistances.indexOf(smallestDistance);
                 return otherDots.splice(otherIdx, 1)[0];
             } else {
+
                 return curDot;
             }
         });
@@ -57,9 +61,13 @@ export default class Dot {
         return d;
     }
 
+    _degToRad(deg) {
+        return deg * (Math.PI / 180);
+    }
+
     move() {
-        const movX = Math.cos(this.dir) * this.speed;
-        const movY = Math.sin(this.dir) * this.speed;
+        const movX = Math.cos(this._degToRad(this.dir)) * this.speed;
+        const movY = Math.sin(this._degToRad(this.dir)) * this.speed;
 
         this.x += movX;
         this.y += movY;
