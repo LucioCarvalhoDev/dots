@@ -1,3 +1,5 @@
+import { GAME_RULES } from "../index.js";
+
 export default class Dot {
     /**
      * 
@@ -9,8 +11,6 @@ export default class Dot {
         this.x = x;
         this.y = y;
 
-        this.connections = [];
-
         this.dir = dir;
         this.speed = speed;
     }
@@ -18,40 +18,11 @@ export default class Dot {
     update(canvasWidth, canvasHeight) {
         this.move();
 
-        if ((this.x < -5 || this.x > canvasWidth + 5) || (this.y < -5 || this.y > canvasHeight + 5)) {
+        if ((this.x < -GAME_RULES.distanceToDie || this.x > canvasWidth + GAME_RULES.distanceToDie) || (this.y < -GAME_RULES.distanceToDie || this.y > canvasHeight + GAME_RULES.distanceToDie)) {
             return 0;
         } else {
             return 1;
         }
-    }
-
-    checkCol(dots) {
-        if (this.connections.length == 0) {
-            this.connections = [
-                new Dot(Infinity, Infinity, 0, 1),
-                new Dot(Infinity, Infinity, 0, 1),
-                new Dot(Infinity, Infinity, 0, 1),];
-        }
-
-        let otherDots = dots.filter(dot =>
-            dot != this && this.connections.indexOf(dot) == -1);
-
-        this.connections = this.connections.map(curDot => {
-
-            const curDistance = this._distanceTo(curDot.x, curDot.y);
-            const othersDistances = otherDots.map(dot => dot._distanceTo(this.x, this.y));
-            const smallestDistance = Math.min(...othersDistances);
-
-            if (curDistance > smallestDistance) {
-                const otherIdx = othersDistances.indexOf(smallestDistance);
-                return otherDots.splice(otherIdx, 1)[0];
-            } else {
-
-                return curDot;
-            }
-        });
-
-
     }
 
     _distanceTo(x, y) {

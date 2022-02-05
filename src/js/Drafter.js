@@ -20,7 +20,7 @@ export default class Drafter {
         const c1 = ax - bx;
         const c2 = ay - by;
         const distance = Math.round(Math.sqrt(c1 ** 2 + c2 ** 2));
-        let trans = 255 - distance * 1.5;
+        let trans = 200 - distance;
         if (trans < 0)
             trans = 0;
 

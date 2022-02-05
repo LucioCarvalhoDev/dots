@@ -1,5 +1,7 @@
+import { GAME_RULES } from "../index.js";
 import Dot from "./Dot.js";
 import Drafter from "./Drafter.js";
+import { _math } from "./helper/_math.js";
 
 const QUANTITY = 10;
 
@@ -23,13 +25,30 @@ export default class Controller {
     }
 
     createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
-        const x = posX || Math.round(Math.random() * this.canvas.witdh);
-        const y = posY || Math.round(Math.random() * this.canvas.height);
+        const x = posX || _math.numberBetween(-GAME_RULES.distanceToDie, this.canvas.witdh + GAME_RULES.distanceToDie);
+        const y = posY || _math.numberBetween(-GAME_RULES.distanceToDie, this.canvas.height + GAME_RULES.distanceToDie);
         const dir = mvDir || Math.round(Math.random() * 360);
-        const spd = mvSpd || Math.random() * 2 + 0.5;
+        const spd = mvSpd || Math.random() * 2 + 0.1;
 
         const dot = new Dot(x, y, dir, spd);
         this.dots.push(dot);
+    }
+
+    rePopulate() {
+        const xRange = _math.choose(
+            [-GAME_RULES.distanceToDie, 0],
+            [this.canvas.witdh, this.canvas.witdh + GAME_RULES.distanceToDie]
+        );
+
+        const yRange = _math.choose(
+            [-GAME_RULES.distanceToDie, 0],
+            [this.canvas.height, this.canvas.height + GAME_RULES.distanceToDie]
+        );
+
+        const x = _math.numberBetween(...xRange);
+        const y = _math.numberBetween(...yRange);
+
+        this.createDot(x, y);
     }
 
     populate(n = QUANTITY) {
@@ -65,10 +84,10 @@ export default class Controller {
     }
 
     renderLines() {
-
         this.dots.forEach(startDot => {
-            startDot.checkCol([].concat(this.dots));
-            startDot.connections.forEach(endDot => {
+            const others = this.dots.filter(d => d != startDot);
+            // startDot.checkCol([].concat(this.dots));
+            others.forEach(endDot => {
                 this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
             });
         });
