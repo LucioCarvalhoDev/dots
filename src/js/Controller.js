@@ -37,11 +37,24 @@ export default class Controller {
         }
     }
 
+    updateDots() {
+        this.dots.forEach((dot, idx) => {
+            if (!dot.update(this.canvas.witdh, this.canvas.height)) {
+                delete this.dots[idx];
+            }
+        });
+    }
+
     renderDots() {
         this.drafter.brush.clearRect(0, 0, this.canvas.witdh, this.canvas.height);
         this.dots.forEach((dot, idx) => {
             if (dot.update(this.canvas.witdh, this.canvas.height)) {
-                this.drafter.dot(dot.x, dot.y);
+                let color = "#ffffff";
+                if (dot == this.dots[0]) {
+                    color = "#ff0000";
+                }
+                // console.log(color);
+                this.drafter.dot(dot.x, dot.y, color);
             } else {
                 delete this.dots[idx];
             }
@@ -55,7 +68,9 @@ export default class Controller {
 
         this.dots.forEach(startDot => {
             startDot.checkCol([].concat(this.dots));
-            this.drafter.line(startDot.x, startDot.y, startDot.connections[0].x, startDot.connections[0].y);
+            startDot.connections.forEach(endDot => {
+                this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
+            });
         });
     }
 }

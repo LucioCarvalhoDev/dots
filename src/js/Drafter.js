@@ -5,11 +5,11 @@ export default class Drafter {
         this.brush = this.canvas.getContext("2d");
     }
 
-    dot(x, y) {
+    dot(x, y, color = "#ffffff") {
         this.brush.beginPath();
 
         this.brush.arc(x, y, 2.5, 0, Math.PI * 2);
-        this.brush.fillStyle = "#ffffff";
+        this.brush.fillStyle = color;
         this.brush.fill();
 
         this.brush.closePath();

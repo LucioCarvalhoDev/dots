@@ -14,3 +14,18 @@ body {
 .dot {
     position: absolute;
 }
+
+.play {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-style: solid;
+    border-width: 15px 0px 15px 30px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border-color: transparent transparent transparent #202020;
+}
+
+.play:hover {
+    cursor: pointer;
+}

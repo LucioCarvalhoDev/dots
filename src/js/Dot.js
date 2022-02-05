@@ -27,22 +27,27 @@ export default class Dot {
 
     checkCol(dots) {
         if (this.connections.length == 0) {
-            this.connections = [new Dot(Infinity, Infinity, 0, 1)];
+            this.connections = [
+                new Dot(Infinity, Infinity, 0, 1),
+                new Dot(Infinity, Infinity, 0, 1),
+                new Dot(Infinity, Infinity, 0, 1),];
         }
-        dots.forEach(dot => {
-            if (dot == this) {
-                return;
+
+        let otherDots = dots.filter(dot => dot != this);
+
+        this.connections = this.connections.map(curDot => {
+            const curDistance = this._distanceTo(curDot.x, curDot.y);
+            const othersDistances = otherDots.map(dot => dot._distanceTo(this.x, this.y));
+            const smallestDistance = Math.min(...othersDistances);
+            if (curDistance > smallestDistance) {
+                const otherIdx = othersDistances.indexOf(smallestDistance);
+                return otherDots.splice(otherIdx, 1)[0];
             } else {
-                const distance = this._distanceTo(dot.x, dot.y);
-                const connectedDistances = this.connections.map(connectedDot => connectedDot._distanceTo(this.x, this.y));
-                const smallestConnectedDistance = Math.min(...connectedDistances);
-                if (distance < smallestConnectedDistance) {
-                    const idToSub = connectedDistances.indexOf(smallestConnectedDistance);
-                    this.connections[idToSub] = dot;
-                }
+                return curDot;
             }
         });
-        // console.log(this.connections[0]);
+
+
     }
 
     _distanceTo(x, y) {
