@@ -5,7 +5,7 @@ export default class Dot {
      * @param {number} y 
      * @param {number} dir 0~360
      */
-    constructor(x, y, dir, speed = (Math.random() * 2 + 1)) {
+    constructor(x, y, dir, speed = (Math.random() * 2 + 0.5)) {
         this.x = x;
         this.y = y;
 

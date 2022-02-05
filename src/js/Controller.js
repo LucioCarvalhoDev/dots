@@ -1,5 +1,6 @@
 import Dot from "./Dot.js";
 import circleHtml from "./../circle.html";
+import Drafter from "./Drafter.js";
 
 const QUANTITY = 10;
 
@@ -10,6 +11,10 @@ export default class Controller {
             witdh: target.clientWidth,
             height: target.clientHeight
         };
+
+        this.drafter = new Drafter(this.canvas.element);
+
+        this.dots = [];
 
         this.init();
     }
@@ -24,19 +29,7 @@ export default class Controller {
         const dir = Math.round(Math.random() * 360);
 
         const dot = new Dot(x, y, dir);
-        const dotElem = document.createElement('svg');
-        dotElem.classList.add('dot');
-        dotElem.innerHTML = circleHtml;
-
-        this.canvas.element.appendChild(dotElem);
-
-        dotElem.dataset.dir = dot.dir;
-        dotElem.dataset.speed = dot.speed;
-
-        dotElem.style.left = dot.x + 'px';
-        dotElem.style.top = dot.y + 'px';
-
-
+        this.dots.push(dot);
     }
 
     populate(n = QUANTITY) {
@@ -45,24 +38,17 @@ export default class Controller {
         }
     }
 
-    update() {
-        const dotsElem = Array.from(this.canvas.element.children);
-
-        dotsElem.forEach(dotElem => {
-            const dot = new Dot(
-                +dotElem.style.left.slice(0, -2),
-                +dotElem.style.top.slice(0, -2),
-                +dotElem.dataset.dir,
-                +dotElem.dataset.speed);
-
-            if (dot.update(this.canvas.witdh, this.canvas.height) === 0) {
-                dotElem.remove();
+    render() {
+        this.drafter.brush.clearRect(0, 0, this.canvas.witdh, this.canvas.height);
+        this.dots.forEach((dot, idx) => {
+            if (dot.update(this.canvas.witdh, this.canvas.height)) {
+                this.drafter.dot(dot.x, dot.y);
             } else {
-                dotElem.style.left = dot.x + 'px';
-                dotElem.style.top = dot.y + 'px';
+                delete this.dots[idx];
             }
         });
 
-        return dotsElem.length;
+        this.dots = this.dots.filter(d => d);
+        return this.dots.length;
     }
 }
