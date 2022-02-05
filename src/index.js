@@ -5,7 +5,7 @@ export const GAME_RULES = {
     initialPopulation: 30
 };
 
-let flagPlay = false;
+let flagPlay = true;
 
 const play = document.querySelector('.play');
 play.onclick = () => {
