@@ -16,6 +16,14 @@ export default class Controller {
         this.dots = [];
     }
 
+    display(wid, hei) {
+        this.canvas.witdh = wid;
+        this.canvas.height = hei;
+
+        this.canvas.element.width = wid;
+        this.canvas.element.height = hei;
+    }
+
     createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
         const x = posX || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.witdh + GAME_RULES.dotDistanceToDie);
         const y = posY || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.height + GAME_RULES.dotDistanceToDie);
