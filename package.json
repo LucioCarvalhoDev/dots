@@ -7,8 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --mode development"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "procedural-animation",
+    "animation"
+  ],
+  "author": "Lúcio Carvalho",
   "license": "ISC",
   "dependencies": {
     "html-loader": "^3.1.0",
