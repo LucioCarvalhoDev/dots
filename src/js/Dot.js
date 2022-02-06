@@ -6,6 +6,7 @@ export default class Dot {
      * @param {number} x 
      * @param {number} y 
      * @param {number} dir 0~360
+     * @param {number} speed
      */
     constructor(x, y, dir, speed) {
         this.x = x;
@@ -18,7 +19,7 @@ export default class Dot {
     update(canvasWidth, canvasHeight) {
         this.move();
 
-        if ((this.x < -GAME_RULES.distanceToDie || this.x > canvasWidth + GAME_RULES.distanceToDie) || (this.y < -GAME_RULES.distanceToDie || this.y > canvasHeight + GAME_RULES.distanceToDie)) {
+        if ((this.x < -GAME_RULES.dotDistanceToDie || this.x > canvasWidth + GAME_RULES.dotDistanceToDie) || (this.y < -GAME_RULES.dotDistanceToDie || this.y > canvasHeight + GAME_RULES.dotDistanceToDie)) {
             return 0;
         } else {
             return 1;

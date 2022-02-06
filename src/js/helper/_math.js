@@ -7,5 +7,11 @@ export const _math = {
         const min = Math.min(...range);
         // console.log(range, max, min);
         return Math.random() * (max - min) + min;
+    },
+    distanceBetween: (ax, ay, bx, by) => {
+        let c1 = ax - bx;
+        let c2 = ay - by;
+        let d = Math.sqrt(c1 ** 2 + c2 ** 2);
+        return d;
     }
 }

@@ -3,8 +3,6 @@ import Dot from "./Dot.js";
 import Drafter from "./Drafter.js";
 import { _math } from "./helper/_math.js";
 
-const QUANTITY = 10;
-
 export default class Controller {
     constructor(target) {
         this.canvas = {
@@ -16,17 +14,11 @@ export default class Controller {
         this.drafter = new Drafter(this.canvas.element);
 
         this.dots = [];
-
-        this.init();
-    }
-
-    init() {
-
     }
 
     createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
-        const x = posX || _math.numberBetween(-GAME_RULES.distanceToDie, this.canvas.witdh + GAME_RULES.distanceToDie);
-        const y = posY || _math.numberBetween(-GAME_RULES.distanceToDie, this.canvas.height + GAME_RULES.distanceToDie);
+        const x = posX || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.witdh + GAME_RULES.dotDistanceToDie);
+        const y = posY || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.height + GAME_RULES.dotDistanceToDie);
         const dir = mvDir || Math.round(Math.random() * 360);
         const spd = mvSpd || Math.random() * 2 + 0.1;
 
@@ -34,24 +26,26 @@ export default class Controller {
         this.dots.push(dot);
     }
 
-    rePopulate() {
-        const xRange = _math.choose(
-            [-GAME_RULES.distanceToDie, 0],
-            [this.canvas.witdh, this.canvas.witdh + GAME_RULES.distanceToDie]
-        );
+    rePopulate(n = 1) {
+        for (let i = 1; i <= n; i++) {
+            const xRange = _math.choose(
+                [-GAME_RULES.dotDistanceToDie, 0],
+                [this.canvas.witdh, this.canvas.witdh + GAME_RULES.dotDistanceToDie]
+            );
 
-        const yRange = _math.choose(
-            [-GAME_RULES.distanceToDie, 0],
-            [this.canvas.height, this.canvas.height + GAME_RULES.distanceToDie]
-        );
+            const yRange = _math.choose(
+                [-GAME_RULES.dotDistanceToDie, 0],
+                [this.canvas.height, this.canvas.height + GAME_RULES.dotDistanceToDie]
+            );
 
-        const x = _math.numberBetween(...xRange);
-        const y = _math.numberBetween(...yRange);
+            const x = _math.numberBetween(...xRange);
+            const y = _math.numberBetween(...yRange);
 
-        this.createDot(x, y);
+            this.createDot(x, y);
+        }
     }
 
-    populate(n = QUANTITY) {
+    populate(n = 1) {
         for (let i = 1; i <= n; i++) {
             this.createDot();
         }
@@ -63,41 +57,38 @@ export default class Controller {
                 delete this.dots[idx];
             }
         });
-    }
-
-    renderDots() {
-        this.drafter.brush.clearRect(0, 0, this.canvas.witdh, this.canvas.height);
-        this.dots.forEach((dot, idx) => {
-            if (dot.update(this.canvas.witdh, this.canvas.height)) {
-                let color = "#ffffff";
-                // if (dot == this.dots[0]) {
-                //     color = "#ff0000";
-                // }
-                this.drafter.dot(dot.x, dot.y, color);
-            } else {
-                delete this.dots[idx];
-            }
-        });
-
         this.dots = this.dots.filter(d => d);
         return this.dots.length;
     }
 
+    renderDots() {
+        this.drafter.brush.clearRect(0, 0, this.canvas.witdh, this.canvas.height);
+
+        const visibleDots = this.dots.filter(dot =>
+            dot.x >= - 5 && dot.x <= this.canvas.witdh + 5 &&
+            dot.y >= - 5 && dot.y <= this.canvas.height + 5
+        );
+        // console.log(visibleDots.length);
+        visibleDots.forEach(dot => {
+            const color = '#ffffff';
+            this.drafter.dot(dot.x, dot.y, color);
+        });
+
+
+        return visibleDots.length;
+    }
+
     renderLines() {
         this.dots.forEach(startDot => {
-            const others = this.dots.filter(d => d != startDot);
-            // startDot.checkCol([].concat(this.dots));
+            // array com todos os dots que devem ser ligados
+            const others = this.dots.filter(d => {
+                return d != startDot && d._distanceTo(startDot.x, startDot.y) <= GAME_RULES.lineMaxLenght;
+            });
+
             others.forEach(endDot => {
                 this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
             });
         });
     }
 
-    debugRenderLine() {
-        const startDot = this.dots[0];
-        startDot.checkCol([].concat(this.dots));
-        startDot.connections.forEach(endDot => {
-            this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
-        });
-    }
 }

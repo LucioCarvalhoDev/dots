@@ -1,8 +1,10 @@
 import Controller from "./js/Controller.js";
 
 export const GAME_RULES = {
-    distanceToDie: 200,
-    initialPopulation: 30
+    dotDistanceToDie: 200,
+    dotInitialPopularion: 400,
+    lineMaxLenght: 70
+
 };
 
 let flagPlay = true;
@@ -13,18 +15,18 @@ play.onclick = () => {
 };
 
 const controller = new Controller(document.getElementById('canvas'));
-controller.populate(GAME_RULES.initialPopulation);
+controller.populate(GAME_RULES.dotInitialPopularion);
 controller.renderDots();
 controller.renderLines();
 
 function gameLoop() {
     if (flagPlay) {
-        const population = controller.renderDots();
-        if (population < GAME_RULES.initialPopulation)
-            controller.rePopulate(1);
+        const population = controller.updateDots();
+        controller.renderDots();
+        if (population < GAME_RULES.dotInitialPopularion)
+            controller.rePopulate(GAME_RULES.dotInitialPopularion - population);
 
         controller.renderLines();
-        // controller.debugRenderLine();
     }
 }
 
