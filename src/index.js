@@ -19,6 +19,11 @@ iptPopulation.value = GAME_RULES.dotPopulation;
 iptPopulation.onchange = e => {
     GAME_RULES.dotPopulation = e.target.value;
 };
+const iptLines = document.getElementById('ipt-lines');
+iptLines.value = GAME_RULES.lineMaxLenght;
+iptLines.onchange = e => {
+    GAME_RULES.lineMaxLenght = +e.target.value;
+}
 
 // play and pause
 let flagPlay = true;
