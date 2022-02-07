@@ -7,10 +7,13 @@ export const GAME_RULES = {
 
 };
 
-let flagPlay = true;
+const controls = document.querySelector('.ui_cntrls');
+document.querySelector('.ui_sensor_open').onclick = () => {
+    controls.classList.toggle('off')
+}
 
-const play = document.querySelector('.play');
-play.onclick = () => {
+let flagPlay = true;
+document.querySelector('.play').onclick = () => {
     flagPlay = !flagPlay;
 };
 

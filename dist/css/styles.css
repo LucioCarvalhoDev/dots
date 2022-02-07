@@ -44,7 +44,7 @@ body {
 }
 
 .ui_sensor:hover > * {
-    opacity: 80%;
+    opacity: 90%;
 }
 
 @keyframes fade {
@@ -88,11 +88,25 @@ body {
 }
 
 .ui_cntrls {
+    position: relative;
+    top: 60px;
+    display: grid;
+    row-gap: 5px;
+    grid-template-areas: 
+        "r1" "r2" "r3";
+    border-radius: 15px;
+    padding: 15px;
+    background: #fdfdfd;
+    opacity: 90%;
+}
+
+.ui_cntrls.off {
     display: none;
 }
 
 .play {
-    
+    grid-area: r1;
+    margin: 0px auto;
     border-style: solid;
     border-width: 15px 0px 15px 30px;
     box-sizing: border-box;
