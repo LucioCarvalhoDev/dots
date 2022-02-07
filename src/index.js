@@ -1,4 +1,4 @@
-import Controller from "./js/Controller.js";
+import CanvasController from "./js/controllers/CanvasController.js";
 
 export const GAME_RULES = {
     dotDistanceToDie: 200,
@@ -31,21 +31,21 @@ document.querySelector('.play').onclick = () => {
     flagPlay = !flagPlay;
 };
 
-const controller = new Controller(document.getElementById('canvas'));
+const canvas = new CanvasController(document.getElementById('canvas'));
 const screen = document.querySelector('body');
-controller.populate(GAME_RULES.dotPopulation);
-controller.renderDots();
-controller.renderLines();
+canvas.populate(GAME_RULES.dotPopulation);
+canvas.renderDots();
+canvas.renderLines();
 
 function gameLoop() {
-    controller.display(screen.clientWidth, screen.clientHeight);
+    canvas.display(screen.clientWidth, screen.clientHeight);
     if (flagPlay) {
-        const population = controller.updateDots();
+        const population = canvas.updateDots();
         if (population < GAME_RULES.dotPopulation)
-            controller.rePopulate(GAME_RULES.dotPopulation - population);
+            canvas.rePopulate(GAME_RULES.dotPopulation - population);
     }
-    controller.renderDots();
-    controller.renderLines();
+    canvas.renderDots();
+    canvas.renderLines();
 }
 
 setInterval(gameLoop, 30); 

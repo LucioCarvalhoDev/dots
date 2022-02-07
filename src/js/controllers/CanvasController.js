@@ -1,9 +1,9 @@
-import { GAME_RULES } from "../index.js";
-import Dot from "./Dot.js";
-import Drafter from "./Drafter.js";
-import { _math } from "./helper/_math.js";
+import { GAME_RULES } from "../../index.js";
+import Dot from "../Dot.js";
+import Drafter from "../Drafter.js";
+import { _math } from "../helper/_math.js";
 
-export default class Controller {
+export default class CanvasController {
     constructor(target) {
         this.canvas = {
             element: target,
