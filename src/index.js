@@ -2,7 +2,7 @@ import Controller from "./js/Controller.js";
 
 export const GAME_RULES = {
     dotDistanceToDie: 200,
-    dotInitialPopularion: 50,
+    dotInitialPopularion: 20,
     lineMaxLenght: 200
 
 };

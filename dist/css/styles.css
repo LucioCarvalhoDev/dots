@@ -3,7 +3,11 @@ body {
     height: 100vh;;
     margin: 0px;
     overflow: hidden;
-    background-color: black;
+    background: black;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 #canvas {
@@ -17,10 +21,78 @@ body {
     position: absolute;
 }
 
-.play {
+.ui {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.ui_sensor {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    background: transparent;
+    border-radius: 100%;
+    width: 400px;
+    height: 200px;
+    transform: x;
+    top: -100px;
+}
+
+.ui_sensor:hover > * {
+    opacity: 80%;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 100%;
+    }
+    70% {
+        opacity: 100%;
+    }
+    to {
+        opacity: 0%;
+    }
+}
+
+.ui_sensor_open {
+    opacity: 0%;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 110px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    transition: all 1s;
+    animation: fade 4s;
+}
+
+.ui_sensor_open:hover {
+    cursor: pointer;
+}
+
+.ui_sensor_open:focus {
+    outline: none;
+}
+
+.ui_sensor_open > i {
+    font-size: 2rem
+}
+
+.ui_cntrls {
+    display: none;
+}
+
+.play {
+    
     border-style: solid;
     border-width: 15px 0px 15px 30px;
     box-sizing: border-box;
