@@ -37,23 +37,23 @@ body {
     position: absolute;
     background: transparent;
     border-radius: 100%;
-    width: 400px;
-    height: 200px;
+    width: 100vw;
+    height: 300px;
     transform: x;
     top: -100px;
 }
 
 .ui_sensor.visible > *,
 .ui_sensor:hover > * {
-    opacity: 90%;
+    opacity: 90% !important;
 }
 
 @keyframes fade {
     0% {
-        opacity: 100%;
+        opacity: 90%;
     }
     70% {
-        opacity: 100%;
+        opacity: 90%;
     }
     to {
         opacity: 0%;
@@ -104,6 +104,7 @@ body {
 
 .ui_cntrls.on {
     display: block;
+    animation: fade 1s reverse;
 }
 
 .play {

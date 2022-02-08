@@ -7,10 +7,6 @@ export const GAME_RULES = {
     lineMaxLenght: localStorage.getItem('lineMaxLenght') || 200
 
 };
-const ui = new UiController();
-document.querySelector('.ui_sensor_open').onclick = ui.manageControls.bind(ui);
-
-
 
 // update GAME_RULES
 const iptPopulation = document.getElementById('ipt-population');
@@ -26,12 +22,17 @@ iptLines.onchange = e => {
     localStorage.setItem('lineMaxLenght', +e.target.value);
 };
 
+// set ui
+const ui = new UiController();
+document.querySelector('.ui_sensor_open').onclick = ui.manageControls.bind(ui);
+
 // play and pause
 let flagPlay = true;
 document.querySelector('.play').onclick = () => {
     flagPlay = !flagPlay;
 };
 
+// set canvas
 const canvas = new CanvasController(document.getElementById('canvas'));
 const screen = document.querySelector('body');
 canvas.display(screen.clientWidth, screen.clientHeight);
