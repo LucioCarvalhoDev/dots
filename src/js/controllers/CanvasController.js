@@ -27,7 +27,7 @@ export default class CanvasController {
     createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
         const x = posX || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.witdh + GAME_RULES.dotDistanceToDie);
         const y = posY || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.height + GAME_RULES.dotDistanceToDie);
-        const dir = mvDir || Math.round(Math.random() * 360);
+        const dir = mvDir === 0 ? mvDir : Math.round(Math.random() * 360);
         const spd = mvSpd || Math.random() * 2 + 0.1;
 
         const dot = new Dot(x, y, dir, spd);
@@ -87,16 +87,17 @@ export default class CanvasController {
     }
 
     renderLines() {
-        this.dots.forEach(startDot => {
-            // array com todos os dots que devem ser ligados
-            const others = this.dots.filter(d => {
-                return d != startDot && d._distanceTo(startDot.x, startDot.y) <= GAME_RULES.lineMaxLenght;
-            });
+        const dotList = [].concat(this.dots);
 
-            others.forEach(endDot => {
-                this.drafter.line(startDot.x, startDot.y, endDot.x, endDot.y);
-            });
-        });
+        // evita linhas repetidas
+        for (let i = 0; i < this.dots.length; i++) {
+            const dotStart = dotList.splice(0, 1)[0];
+            for (let j = i + 1; j < this.dots.length; j++) {
+                const dotEnd = this.dots[j];
+                if (dotStart._distanceTo(dotEnd) < GAME_RULES.lineMaxLenght)
+                    this.drafter.line(dotStart, dotEnd);
+            }
+        }
     }
 
 }

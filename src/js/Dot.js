@@ -14,6 +14,7 @@ export default class Dot {
 
         this.dir = dir;
         this.speed = speed;
+        // console.log(dir);
     }
 
     update(canvasWidth, canvasHeight) {
@@ -26,9 +27,9 @@ export default class Dot {
         }
     }
 
-    _distanceTo(x, y) {
-        let c1 = this.x - x;
-        let c2 = this.y - y;
+    _distanceTo(otherDot) {
+        let c1 = this.x - otherDot.x;
+        let c2 = this.y - otherDot.y;
         let d = Math.sqrt(c1 ** 2 + c2 ** 2);
         return d;
     }
