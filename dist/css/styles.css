@@ -43,6 +43,7 @@ body {
     top: -100px;
 }
 
+.ui_sensor.visible > *,
 .ui_sensor:hover > * {
     opacity: 90%;
 }
@@ -98,10 +99,11 @@ body {
     padding: 15px;
     background: #fdfdfd;
     opacity: 90%;
+    display: none;
 }
 
-.ui_cntrls.off {
-    display: none;
+.ui_cntrls.on {
+    display: block;
 }
 
 .play {
