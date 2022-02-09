@@ -88,14 +88,23 @@ export default class CanvasController {
 
     renderLines() {
         const dotList = [].concat(this.dots);
+        const maxDistance = 255 * GAME_RULES.lineMaxLenght / 100;
 
         // evita linhas repetidas
         for (let i = 0; i < this.dots.length; i++) {
             const dotStart = dotList.splice(0, 1)[0];
             for (let j = i + 1; j < this.dots.length; j++) {
                 const dotEnd = this.dots[j];
-                if (dotStart._distanceTo(dotEnd) < GAME_RULES.lineMaxLenght)
-                    this.drafter.line(dotStart, dotEnd);
+
+                const distance = dotStart._distanceTo(dotEnd);
+
+                if (distance < maxDistance) {
+                    const opacity = Number(Math.round(Math.abs((distance / maxDistance) - 1) * 255))
+                        .toString(16).padStart(2, '0');
+
+                    this.drafter.line(dotStart, dotEnd, opacity);
+                }
+
             }
         }
     }
