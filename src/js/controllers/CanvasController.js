@@ -27,11 +27,10 @@ export default class CanvasController {
     createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
         const x = posX || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.witdh + GAME_RULES.dotDistanceToDie);
         const y = posY || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.height + GAME_RULES.dotDistanceToDie);
-        const dir = mvDir != undefined ? mvDir : Math.round(Math.random() * 360);
+        const dir = mvDir === 0 ? mvDir : Math.round(Math.random() * 360);
         const spd = mvSpd || Math.random() * 2 + 0.1;
 
         const dot = new Dot(x, y, dir, spd);
-        console.log(mvDir);
         this.dots.push(dot);
     }
 
