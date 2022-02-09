@@ -5,8 +5,8 @@ import UiController from "./js/controllers/UiController.js";
 
 export const GAME_RULES = {
     dotDistanceToDie: 200,
-    dotPopulation: localStorage.getItem('dotPopulation') || 20,
-    lineMaxLenght: localStorage.getItem('lineMaxLenght') || 200
+    dotPopulation: localStorage.getItem('dotPopulation') || 35,
+    lineMaxLenght: localStorage.getItem('lineMaxLenght') || 255
 
 };
 

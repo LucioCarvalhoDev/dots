@@ -31,13 +31,7 @@ export default class Drafter {
         this.brush.lineTo(dot2.x, dot2.y);
 
         // Fill with gradient
-
-
         const color = "#ffffff" + trans;
-
-        // console.log('distance:', distance);
-        // console.log('trans:', trans);
-        // console.log('color:', color);
 
         this.brush.strokeStyle = color;
         this.brush.stroke();
