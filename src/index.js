@@ -1,3 +1,5 @@
+import './css/styles.css';
+
 import CanvasController from "./js/controllers/CanvasController.js";
 import UiController from "./js/controllers/UiController.js";
 
