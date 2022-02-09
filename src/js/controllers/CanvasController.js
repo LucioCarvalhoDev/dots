@@ -89,11 +89,12 @@ export default class CanvasController {
     renderLines() {
         const dotList = [].concat(this.dots);
         const maxDistance = 255 * GAME_RULES.lineMaxLenght / 100;
-        // const screenWalls = [
-        //     [{x: 0, y: 0}, {x: this.canvas.witdh, y: 0}],
-        //     [{x: 0, y: this.canvas.height}, {x: this.canvas.witdh, y: this.canvas.height}],
-        //     [{x: 0, y: 0}, {}]
-        // ]
+        const screenWalls = [
+            [{ x: 0, y: 0 }, { x: this.canvas.witdh, y: 0 }],
+            [{ x: 0, y: this.canvas.height }, { x: this.canvas.witdh, y: this.canvas.height }],
+            [{ x: 0, y: 0 }, { x: 0, y: this.canvas.height }],
+            [{ x: this.canvas.witdh, y: 0 }, { x: this.canvas.witdh, y: this.canvas.height }],
+        ];
 
         // evita linhas repetidas
         for (let i = 0; i < this.dots.length; i++) {
@@ -104,18 +105,31 @@ export default class CanvasController {
                 const distance = dotStart._distanceTo(dotEnd);
 
                 if (distance < maxDistance) {
+                    const lineWillBeVisible = screenWalls.map(([w1, w2]) => {
 
-                    const opacity = Number(Math.round(Math.abs((distance / maxDistance) - 1) * 255))
-                        .toString(16).padStart(2, '0');
+                        if ((this._isPointInsideRect(dotStart, [0, 0], [this.canvas.witdh, this.canvas.height])) ||
+                            this._isPointInsideRect(dotEnd, [0, 0], [this.canvas.witdh, this.canvas.height]))
+                            return true;
 
-                    this.drafter.line(dotStart, dotEnd, opacity);
+                        return this._checkIfLinesCross(w1, w2, dotStart, dotEnd);
+                    }).reduce((acc, cur) => acc || cur);
+
+
+                    if (lineWillBeVisible) {
+                        const opacity = Number(Math.round(Math.abs((distance / maxDistance) - 1) * 255))
+                            .toString(16).padStart(2, '0');
+
+                        this.drafter.line(dotStart, dotEnd, opacity);
+                    }
+
                 }
 
             }
         }
     }
 
-    _lineIsVisible(p1, p2, q1, q2) {
+    _checkIfLinesCross(p1, p2, q1, q2) {
+        // code from 
         const a = p1.x;
         const b = p1.y;
         const c = p2.x;
@@ -132,9 +146,12 @@ export default class CanvasController {
         } else {
             lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
             gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
-            return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+            return ((0 < lambda && lambda < 1) && (0 < gamma && gamma < 1));
         }
+    }
 
+    _isPointInsideRect({ x, y }, [x1, y1], [x2, y2]) {
+        return (x > x1 && x < x2) && (y > y1 && y < y2);
     }
 
 }

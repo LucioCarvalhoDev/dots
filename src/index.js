@@ -38,9 +38,7 @@ document.querySelector('.play').onclick = () => {
 const canvas = new CanvasController(document.getElementById('canvas'));
 const screen = document.querySelector('body');
 canvas.display(screen.clientWidth, screen.clientHeight);
-// canvas.populate(GAME_RULES.dotPopulation);
-canvas.createDot(200, 200);
-canvas.createDot(300, 200);
+canvas.populate(GAME_RULES.dotPopulation);
 canvas.renderDots();
 canvas.renderLines();
 
@@ -55,4 +53,4 @@ function gameLoop() {
     canvas.renderLines();
 }
 
-// setInterval(gameLoop, 30); 
+setInterval(gameLoop, 30);
