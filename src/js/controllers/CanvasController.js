@@ -89,6 +89,11 @@ export default class CanvasController {
     renderLines() {
         const dotList = [].concat(this.dots);
         const maxDistance = 255 * GAME_RULES.lineMaxLenght / 100;
+        // const screenWalls = [
+        //     [{x: 0, y: 0}, {x: this.canvas.witdh, y: 0}],
+        //     [{x: 0, y: this.canvas.height}, {x: this.canvas.witdh, y: this.canvas.height}],
+        //     [{x: 0, y: 0}, {}]
+        // ]
 
         // evita linhas repetidas
         for (let i = 0; i < this.dots.length; i++) {
@@ -99,6 +104,7 @@ export default class CanvasController {
                 const distance = dotStart._distanceTo(dotEnd);
 
                 if (distance < maxDistance) {
+
                     const opacity = Number(Math.round(Math.abs((distance / maxDistance) - 1) * 255))
                         .toString(16).padStart(2, '0');
 
@@ -107,6 +113,28 @@ export default class CanvasController {
 
             }
         }
+    }
+
+    _lineIsVisible(p1, p2, q1, q2) {
+        const a = p1.x;
+        const b = p1.y;
+        const c = p2.x;
+        const d = p2.y;
+        const p = q1.x;
+        const q = q1.y;
+        const r = q2.x;
+        const s = q2.y;
+
+        var det, gamma, lambda;
+        det = (c - a) * (s - q) - (r - p) * (d - b);
+        if (det === 0) {
+            return false;
+        } else {
+            lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
+            gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
+            return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+        }
+
     }
 
 }
