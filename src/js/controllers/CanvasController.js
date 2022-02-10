@@ -24,32 +24,36 @@ export default class CanvasController {
         this.canvas.element.height = hei;
     }
 
-    createDot(posX = undefined, posY = undefined, mvDir = undefined, mvSpd = undefined) {
-        const x = posX || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.witdh + GAME_RULES.dotDistanceToDie);
-        const y = posY || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.height + GAME_RULES.dotDistanceToDie);
-        const dir = mvDir != undefined ? mvDir : Math.round(Math.random() * 360);
-        const spd = mvSpd || Math.random() * 2 + 0.1;
+    createDot(_x = undefined, _y = undefined, _dir = undefined, _speed = undefined, _state = undefined, _hp = undefined) {
+        const x = _x || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.witdh + GAME_RULES.dotDistanceToDie);
+        const y = _y || _math.numberBetween(-GAME_RULES.dotDistanceToDie, this.canvas.height + GAME_RULES.dotDistanceToDie);
+        const dir = _dir != undefined ? _dir : Math.round(Math.random() * 360);
+        const speed = _speed || Math.random() * 2 + 0.1;
+        const state = _state || 'idle';
+        const hp = state === 'born' ? 0 : 100;
 
-        const dot = new Dot(x, y, dir, spd);
+        const dot = new Dot(x, y, dir, speed, state, hp);
+        dot.rate = _math.numberBetween(0.01, 1);
         this.dots.push(dot);
     }
 
     rePopulate(n = 1) {
         for (let i = 1; i <= n; i++) {
-            const xRange = _math.choose(
-                [-GAME_RULES.dotDistanceToDie, 0],
-                [this.canvas.witdh, this.canvas.witdh + GAME_RULES.dotDistanceToDie]
-            );
+            // const xRange = _math.choose(
+            //     [-GAME_RULES.dotDistanceToDie, 0],
+            //     [this.canvas.witdh, this.canvas.witdh + GAME_RULES.dotDistanceToDie]
+            // );
 
-            const yRange = _math.choose(
-                [-GAME_RULES.dotDistanceToDie, 0],
-                [this.canvas.height, this.canvas.height + GAME_RULES.dotDistanceToDie]
-            );
+            // const yRange = _math.choose(
+            //     [-GAME_RULES.dotDistanceToDie, 0],
+            //     [this.canvas.height, this.canvas.height + GAME_RULES.dotDistanceToDie]
+            // );
 
-            const x = _math.numberBetween(...xRange);
-            const y = _math.numberBetween(...yRange);
+            // const x = _math.numberBetween(...xRange);
+            // const y = _math.numberBetween(...yRange);
 
-            this.createDot(x, y);
+            // this.createDot(x, y);
+            this.createDot(undefined, undefined, undefined, undefined, 'born');
         }
     }
 
@@ -69,6 +73,13 @@ export default class CanvasController {
         return this.dots.length;
     }
 
+    kill(n) {
+        for (let i = 0; i < n; i++) {
+            this.dots[i].rate = _math.numberBetween(0.01, 2);
+            this.dots[i].die();
+        }
+    }
+
     renderDots() {
         this.drafter.brush.clearRect(0, 0, this.canvas.witdh, this.canvas.height);
 
@@ -78,7 +89,11 @@ export default class CanvasController {
         );
         // console.log(visibleDots.length);
         visibleDots.forEach(dot => {
-            const color = '#ffffff';
+            const opacity = Number(Math.round(255 * dot.hp / 100)).toString(16).padStart(2, '0');
+
+            const color = '#ffffff' + opacity;
+            if (color == '#ffffff118')
+                console.log(dot.hp);
             this.drafter.dot(dot.x, dot.y, color);
         });
 
@@ -116,10 +131,14 @@ export default class CanvasController {
 
 
                     if (lineWillBeVisible) {
-                        const opacity = Number(Math.round(Math.abs((distance / maxDistance) - 1) * 255))
+                        const baseLineOpacity = Math.abs((distance / maxDistance) - 1) * 255;
+                        const medDotsOpacity = ((dotStart.hp + dotEnd.hp) / 2) / 100;
+                        const opacity = Number(Math.round(baseLineOpacity * medDotsOpacity))
                             .toString(16).padStart(2, '0');
 
-                        this.drafter.line(dotStart, dotEnd, opacity);
+                        const color = "#ffffff" + opacity;
+
+                        this.drafter.line(dotStart, dotEnd, color);
                     }
 
                 }

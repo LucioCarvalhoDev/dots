@@ -8,19 +8,37 @@ export default class Dot {
      * @param {number} dir 0~360
      * @param {number} speed
      */
-    constructor(x, y, dir, speed) {
+    constructor(x, y, dir, speed, state, hp) {
         this.x = x;
         this.y = y;
 
         this.dir = dir;
         this.speed = speed;
-        // console.log(dir);
+
+        this.state = state;
+        this.hp = hp;
+        this.rate = 1;
     }
 
     update(canvasWidth, canvasHeight) {
         this.move();
 
-        if ((this.x < -GAME_RULES.dotDistanceToDie || this.x > canvasWidth + GAME_RULES.dotDistanceToDie) || (this.y < -GAME_RULES.dotDistanceToDie || this.y > canvasHeight + GAME_RULES.dotDistanceToDie)) {
+        if (this.state === 'born') {
+            if (this.hp >= 100) {
+                this.hp = 100;
+                this.state = 'idle';
+            } else {
+                this.hp += this.rate;
+            }
+        } else if (this.state === 'dying') {
+            if (this.hp <= 0) {
+                return 0;
+            }
+            this.hp -= this.rate;
+        }
+
+        if ((this.x < -GAME_RULES.dotDistanceToDie || this.x > canvasWidth + GAME_RULES.dotDistanceToDie) ||
+            (this.y < -GAME_RULES.dotDistanceToDie || this.y > canvasHeight + GAME_RULES.dotDistanceToDie)) {
             return 0;
         } else {
             return 1;
@@ -44,5 +62,9 @@ export default class Dot {
 
         this.x += movX;
         this.y += movY;
+    }
+
+    die() {
+        this.state = 'dying';
     }
 }

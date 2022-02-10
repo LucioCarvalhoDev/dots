@@ -17,15 +17,13 @@ export default class Drafter {
         this.brush.closePath();
     }
 
-    line(dot1, dot2, opacity) {
+    line(dot1, dot2, color) {
         this.brush.beginPath();
 
         this.brush.moveTo(dot1.x, dot1.y);
         this.brush.lineTo(dot2.x, dot2.y);
 
         // Fill with gradient
-        const color = "#ffffff" + opacity;
-
         this.brush.strokeStyle = color;
         this.brush.stroke();
 

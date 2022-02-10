@@ -46,8 +46,11 @@ function gameLoop() {
     canvas.display(screen.clientWidth, screen.clientHeight);
     if (flagPlay) {
         const population = canvas.updateDots();
-        if (population < GAME_RULES.dotPopulation)
+        if (population <= GAME_RULES.dotPopulation) {
             canvas.rePopulate(GAME_RULES.dotPopulation - population);
+        } else {
+            canvas.kill(population - GAME_RULES.dotPopulation);
+        }
     }
     canvas.renderDots();
     canvas.renderLines();
