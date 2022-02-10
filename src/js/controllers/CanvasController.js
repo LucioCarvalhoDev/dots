@@ -33,7 +33,7 @@ export default class CanvasController {
         const hp = state === 'born' ? 0 : 100;
 
         const dot = new Dot(x, y, dir, speed, state, hp);
-        dot.rate = _math.numberBetween(0.01, 1);
+        dot.rate = _math.numberBetween(0.1, 1);
         this.dots.push(dot);
     }
 

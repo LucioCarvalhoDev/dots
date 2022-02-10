@@ -31,10 +31,11 @@ export default class Dot {
                 this.hp += this.rate;
             }
         } else if (this.state === 'dying') {
+            this.hp -= this.rate;
             if (this.hp <= 0) {
+                this.hp = 0;
                 return 0;
             }
-            this.hp -= this.rate;
         }
 
         if ((this.x < -GAME_RULES.dotDistanceToDie || this.x > canvasWidth + GAME_RULES.dotDistanceToDie) ||
