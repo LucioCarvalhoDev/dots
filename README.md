@@ -1,5 +1,5 @@
-# Dots - doc
+# Dots
 
 ![print da aplicação](./banner.jpg)
 
-Branch dedicado a documentação, comentarios e refatorações para melhor leitura.
+Animação procedural renderizada no elemento canvas.
