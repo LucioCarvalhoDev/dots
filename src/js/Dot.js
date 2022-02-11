@@ -1,3 +1,8 @@
+/**
+ * @module module:Dot
+ */
+
+
 import { GAME_RULES } from "../index.js";
 
 export default class Dot {
@@ -20,6 +25,12 @@ export default class Dot {
         this.rate = 1;
     }
 
+    /**
+     * Atualiza posição e estado proprios
+     * @param {Number} canvasWidth 
+     * @param {Number} canvasHeight 
+     * @returns {0|1} Se o dot continua vivo
+     */
     update(canvasWidth, canvasHeight) {
         this.move();
 
@@ -57,6 +68,9 @@ export default class Dot {
         return deg * (Math.PI / 180);
     }
 
+    /**
+     * Atualiza sua posição
+     */
     move() {
         const movX = Math.cos(this._degToRad(this.dir)) * this.speed;
         const movY = Math.sin(this._degToRad(this.dir)) * this.speed;

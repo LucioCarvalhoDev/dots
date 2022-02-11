@@ -1,7 +1,21 @@
+/**
+ * @module
+ */
+
 export const _math = {
+    /**
+     * Escolhe aleatoriamente item de uma lista
+     * @param  {...any} options valores possiveis 
+     * @returns {any} valor escolhido
+     */
     choose: (...options) => {
         return options[Math.round(Math.random() * (options.length - 1))];
     },
+    /**
+     * 
+     * @param  {[Number, Number]} range 
+     * @returns {Number}
+     */
     numberBetween: (...range) => {
         const max = Math.max(...range);
         const min = Math.min(...range);

@@ -1,5 +1,5 @@
-# Dots
+# Dots - doc
 
 ![print da aplicação](./banner.jpg)
 
-Projeto de animação procedural usando o elemento canvas.
+Branch dedicado a documentação, comentarios e refatorações para melhor leitura.

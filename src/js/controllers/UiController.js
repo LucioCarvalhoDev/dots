@@ -1,4 +1,11 @@
+/**
+ * @module module:UiController
+ */
+
 export default class UiController {
+    /**
+     * @constructor
+     */
     constructor() {
         this.sensor = document.querySelector('.ui_sensor');
         this.button = document.querySelector('.ui_sensor_open');

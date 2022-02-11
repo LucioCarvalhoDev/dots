@@ -1,12 +1,26 @@
-import { GAME_RULES } from "../index.js";
+/**
+ * @module module:Drafter
+ */
+
+import Dot from "./Dot";
 
 export default class Drafter {
+    /**
+     * 
+     * @param {HTMLElement} canvas 
+     */
     constructor(canvas) {
         this.canvas = canvas;
 
         this.brush = this.canvas.getContext("2d");
     }
 
+    /**
+     * 
+     * @param {Number} x 
+     * @param {Number} y
+     * @param {String} color 
+     */
     dot(x, y, color = "#ffffff") {
         this.brush.beginPath();
 
@@ -17,6 +31,12 @@ export default class Drafter {
         this.brush.closePath();
     }
 
+    /**
+     * 
+     * @param {Dot} dot1 
+     * @param {Dot} dot2 
+     * @param {Sting} color 
+     */
     line(dot1, dot2, color) {
         this.brush.beginPath();
 
