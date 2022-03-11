@@ -16,21 +16,80 @@
                 <i class="fas fa-cog"></i>
             </button>
         </div>
-        <section class="ui_cntrls off">
-            <button class="play"></button>
-            <div class="ui_cntrls_field">
-                <label for="ipt-population" class="ui_cntrls_field_label">
-                    População
-                </label>
-                <input type="number" class="ui_cntrls_field_ipt" id="ipt-population">
-            </div>
-            <div class="ui_cntrls_field">
-                <label for="ipt-lines" class="ui_cntrls_field_label">
-                    Linhas
-                </label>
-                <input type="range" min="0" max="100" class="ui_cntrls_field_ipt" id="ipt-lines">
-            </div>
-        </section>
+        <div class="ui_wrapper">
+            <section class="ui_menu on">
+                <div class="ui_menu_controls">
+                    <div class="play"></div>
+                </div>
+                <form class="ui_menu_settings">
+                    <fieldset class="ui_menu_settings_window">
+                        <legend>Janela</legend>
+                        <div class="ui_menu_settings_field">
+                            <label for="screenMargin">Margem</label>
+                            <input 
+                                id="screenMargin"
+                                type="range" min="0" max="200" 
+                                >
+                        </div>
+                    </fieldset>
+                    <fieldset class="ui_menu_settings_dots">
+                        <legend>Pontos</legend>
+                        <div class="ui_menu_settings_field">
+                            <label for="dotPopulation">População</label>
+                            <input 
+                                id="dotPopulation"
+                                type="range" min="0" max="500" step="1" 
+                                >
+                        </div>
+                        <div class="ui_menu_settings_field">
+                            <label for="dotSpeed">Velocidade</label>
+                            <input 
+                                id="dotSpeed"
+                                type="range" min="1" max="5"
+                                >
+                        </div>
+                        <div class="ui_menu_settings_field">
+                            <label for="dotFade">Esmaecer</label>
+                            <input 
+                                id="dotFade"
+                                type="checkbox" 
+                                >
+                        </div>
+                        <div class="ui_menu_settings_field">
+                            <label for="dotColor">Cor</label>
+                            <input 
+                                id="dotColor"
+                                type="color" 
+                                >
+                        </div>
+                    </fieldset>
+                    <fieldset class="ui_menu_settings_lines">
+                        <legend>Linhas</legend>
+                        <div class="ui_menu_settings_field">
+                            <label for="lineMaxLenght">Distancia</label>
+                            <input 
+                                id="lineMaxLenght"
+                                type="range" min="0" max="100" step="1" 
+                                >
+                        </div>
+                        <div class="ui_menu_settings_field">
+                            <label for="lineFade">Esmaecer</label>
+                            <input 
+                                id="lineFade"
+                                type="checkbox"
+                                >
+                        </div>
+                        <div class="ui_menu_settings_field">
+                            <label for="lineColor">Cor</label>
+                            <input 
+                                id="lineColor"
+                                type="color" 
+                                >
+                        </div>
+                    </fieldset>
+                </form>
+            </section>
+        </div>
     </div>
     <canvas id="canvas" width="500" height="500">
 

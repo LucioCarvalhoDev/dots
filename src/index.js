@@ -1,59 +1,72 @@
+import CanvasController from 'dots-galaxy';
 import './css/styles.css';
 
-import CanvasController from "./js/controllers/CanvasController.js";
-import UiController from "./js/controllers/UiController.js";
-
-export const GAME_RULES = {
-    dotDistanceToDie: 200,
-    dotPopulation: localStorage.getItem('dotPopulation') || 35,
-    lineMaxLenght: localStorage.getItem('lineMaxLenght') || 255
-
+const GAME_RULES = {
+    screenMargin: 5,
+    dotColor: "#ffffff",
+    dotFade: false,
+    lineColor: "#ffffff",
+    dotPopulation: 100,
+    lineMaxLenght: 0,
+    dotBornMode: 'anywere'
 };
 
-// update GAME_RULES
-const iptPopulation = document.getElementById('ipt-population');
-iptPopulation.value = GAME_RULES.dotPopulation;
-iptPopulation.onchange = e => {
-    GAME_RULES.dotPopulation = e.target.value;
-    localStorage.setItem('dotPopulation', e.target.value);
-};
-const iptLines = document.getElementById('ipt-lines');
-iptLines.value = GAME_RULES.lineMaxLenght;
-iptLines.onchange = e => {
-    GAME_RULES.lineMaxLenght = +e.target.value;
-    localStorage.setItem('lineMaxLenght', +e.target.value);
-};
+
+for (const rule in GAME_RULES) {
+    try {
+        const ipt = document.getElementById(rule);
+        if (ipt.type == 'checkbox') {
+            ipt.checked = GAME_RULES[rule];
+        } else {             
+            ipt.value = GAME_RULES[rule];
+        }     
+    } catch {}
+}
+
 
 // set ui
-const ui = new UiController();
-document.querySelector('.ui_sensor_open').onclick = ui.manageControls.bind(ui);
+// const ui = new UiController();
+// document.querySelector('.ui_sensor_open').onclick = ui.manageControls.bind(ui);
 
 // play and pause
 let flagPlay = true;
 document.querySelector('.play').onclick = () => {
     flagPlay = !flagPlay;
 };
-
-// set canvas
-const canvas = new CanvasController(document.getElementById('canvas'));
+    
+    // set canvas
+const canvas = new CanvasController(document.getElementById('canvas'), GAME_RULES);
 const screen = document.querySelector('body');
 canvas.display(screen.clientWidth, screen.clientHeight);
 canvas.populate(GAME_RULES.dotPopulation);
 canvas.renderDots();
 canvas.renderLines();
 
+const form = document.querySelector('.ui_menu_settings');
+form.onchange = (e) => {
+    let settings;
+
+    if (e.target.type === "checkbox") {
+        settings = {[e.target.id]: e.target.checked};
+    } else {
+        settings = {[e.target.id]: +e.target.value || e.target.value};
+    }
+
+    canvas.setRules(settings);
+}
+
 function gameLoop() {
     canvas.display(screen.clientWidth, screen.clientHeight);
     if (flagPlay) {
         const population = canvas.updateDots();
-        if (population <= GAME_RULES.dotPopulation) {
-            canvas.rePopulate(GAME_RULES.dotPopulation - population);
+        if (population <= canvas._rules.dotPopulation) {
+            canvas.rePopulate(canvas._rules.dotPopulation - population);
         } else {
-            canvas.kill(population - GAME_RULES.dotPopulation);
+            canvas.kill(population - canvas._rules.dotPopulation);
         }
     }
     canvas.renderDots();
     canvas.renderLines();
 }
 
-setInterval(gameLoop, 30);
+setInterval(gameLoop, 10);

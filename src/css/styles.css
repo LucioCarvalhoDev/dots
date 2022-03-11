@@ -1,122 +1,135 @@
 body {
-    width: 100vw;
-    height: 100vh;;
-    margin: 0px;
-    overflow: hidden;
-    background: black;
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  overflow: hidden;
+  background: black;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 #canvas {
-    /* width: 100vw;
+  /* width: 100vw;
     height: 100vh; */
-    overflow: hidden;
-    background: linear-gradient(#6c1765, #010045);
+  overflow: hidden;
+  background: linear-gradient(#6c1765, #010045);
 }
 
 .dot {
-    position: absolute;
+  position: absolute;
 }
 
 .ui {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .ui_sensor {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    background: transparent;
-    border-radius: 100%;
-    width: 100vw;
-    height: 300px;
-    transform: x;
-    top: -100px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  background: transparent;
+  border-radius: 100%;
+  width: 100vw;
+  height: 300px;
+  transform: x;
+  top: -100px;
 }
 
 .ui_sensor.visible > *,
 .ui_sensor:hover > * {
-    opacity: 90% !important;
+  opacity: 90% !important;
 }
 
 @keyframes fade {
-    0% {
-        opacity: 90%;
-    }
-    70% {
-        opacity: 90%;
-    }
-    to {
-        opacity: 0%;
-    }
+  0% {
+    opacity: 90%;
+  }
+  70% {
+    opacity: 90%;
+  }
+  to {
+    opacity: 0%;
+  }
+}
+
+@keyframes slip {
+  0% {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-110%);
+  }
 }
 
 .ui_sensor_open {
-    opacity: 0%;
-    color: rgb(255, 255, 255);
-    position: absolute;
-    top: 110px;
-    background: transparent;
-    border: none;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    transition: all 1s;
-    animation: fade 4s;
+  opacity: 0%;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 110px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  transition: all 1s;
+  animation: fade 4s;
 }
 
 .ui_sensor_open:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .ui_sensor_open:focus {
-    outline: none;
+  outline: none;
 }
 
 .ui_sensor_open > i {
-    font-size: 2rem
+  font-size: 2rem;
 }
 
-.ui_cntrls {
-    position: relative;
-    top: 60px;
-    display: grid;
-    row-gap: 5px;
-    grid-template-areas: 
-        "r1" "r2" "r3";
-    border-radius: 15px;
-    padding: 15px;
-    background: #fdfdfd;
-    opacity: 90%;
-    display: none;
+.ui_wrapper {
+  position: relative;
+  top: 60px;
+  overflow: hidden;
 }
 
-.ui_cntrls.on {
-    display: block;
-    animation: fade 1s reverse;
+.ui_menu.on {
+  display: block;
+  animation: slip 1s reverse;
+}
+
+.ui_menu {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 15px;
+  display: grid;
+  grid-template-rows: 2rem 1fr;
 }
 
 .play {
-    grid-area: r1;
-    margin: 0px auto;
-    border-style: solid;
-    border-width: 15px 0px 15px 30px;
-    box-sizing: border-box;
-    background-color: transparent;
-    border-color: transparent transparent transparent #202020;
+  grid-area: r1;
+  width: 30px;
+  height: 30px;
+  margin: 0px auto;
+  border-style: solid;
+  border-width: 15px 0px 15px 30px;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-color: transparent transparent transparent #202020;
 }
 
 .play:hover {
-    cursor: pointer;
+  cursor: pointer;
 }

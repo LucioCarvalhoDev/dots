@@ -9,7 +9,7 @@ export default class UiController {
     constructor() {
         this.sensor = document.querySelector('.ui_sensor');
         this.button = document.querySelector('.ui_sensor_open');
-        this.controls = document.querySelector('.ui_cntrls');
+        this.controls = document.querySelector('.ui_menu');
 
         this.cntrlsState = false;
     }
