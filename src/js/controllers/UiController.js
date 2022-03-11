@@ -28,25 +28,35 @@ export default class UiController {
             this._setCntrlsVisibility(false);
             state = false;
             const animation = this.controls.animate([
-                { opacity: '90%' },
-                { opacity: '0%' }
+                { transform: 'translateY(0%)' },
+                { transform: 'translateY(-110%)' }
             ], {
                 duration: 500,
                 iterations: 1,
                 direction: 'normal',
+                fill: 'forwards'
             });
             animation.onfinish = () => {
                 this.controls.classList.remove('on');
             };
         } else {
             this.controls.classList.add('on');
+            this.controls.animate([
+                { transform: 'translateY(-110%)' },
+                { transform: 'translateY(0%)' }
+            ], {
+                duration: 500,
+                iterations: 1,
+                direction: 'normal',
+                fill: 'forwards'
+            });
             this._setCntrlsVisibility(true);
             state = true;
         }
 
         this.button.animate([
             { transform: 'rotate(0)' },
-            { transform: 'rotate(90deg)' }
+            { transform: 'rotate(150deg)' }
         ], {
             duration: 500,
             iterations: 1,

@@ -1,11 +1,14 @@
 import CanvasController from 'dots-galaxy';
 import './css/styles.css';
+import UiController from './js/controllers/UiController.js';
+
 
 const GAME_RULES = {
     screenMargin: 5,
     dotColor: "#ffffff",
     dotFade: false,
     lineColor: "#ffffff",
+    lineFade: false,
     dotPopulation: 100,
     lineMaxLenght: 0,
     dotBornMode: 'anywere'
@@ -25,8 +28,8 @@ for (const rule in GAME_RULES) {
 
 
 // set ui
-// const ui = new UiController();
-// document.querySelector('.ui_sensor_open').onclick = ui.manageControls.bind(ui);
+const ui = new UiController();
+document.querySelector('.ui_sensor_open').onclick = ui.manageControls.bind(ui);
 
 // play and pause
 let flagPlay = true;
